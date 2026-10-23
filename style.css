@@ -1,0 +1,1050 @@
+/* ==========================================================================
+   ALKA Artisanals CSS Style Sheet
+   Quiet Luxury - Indian Craft meets Contemporary Fashion
+   ========================================================================== */
+
+/* Design Tokens & Variables */
+:root {
+  /* HSL Colors */
+  --hsl-crimson: 352, 75%, 24%;       /* #6B0F1A */
+  --hsl-gold: 44, 52%, 54%;          /* #C9A84C */
+  --hsl-ivory: 39, 44%, 96%;         /* #FAF6EF */
+  --hsl-parchment: 38, 23%, 90%;      /* #EDE8DF */
+  --hsl-charcoal: 60, 6%, 10%;        /* #1A1A18 */
+  --hsl-black: 60, 5%, 6%;           /* #111110 */
+  --hsl-overlay: 0, 0%, 0%;
+  
+  /* Color Hex mappings (for CSS background colors, border, text) */
+  --color-crimson: hsl(var(--hsl-crimson));
+  --color-gold: hsl(var(--hsl-gold));
+  --color-ivory: hsl(var(--hsl-ivory));
+  --color-parchment: hsl(var(--hsl-parchment));
+  --color-charcoal: hsl(var(--hsl-charcoal));
+  --color-black: hsl(var(--hsl-black));
+  
+  /* Semi-transparent variations */
+  --color-gold-20: hsla(var(--hsl-gold), 0.2);
+  --color-gold-50: hsla(var(--hsl-gold), 0.5);
+  --color-crimson-15: hsla(var(--hsl-crimson), 0.15);
+  --color-charcoal-80: hsla(var(--hsl-charcoal), 0.8);
+  --color-black-85: hsla(var(--hsl-black), 0.85);
+  
+  /* Typography Families */
+  --font-display: 'Cormorant Garamond', serif;
+  --font-accent: 'Cinzel', serif;
+  --font-body: 'Jost', sans-serif;
+  
+  /* Layout constraints */
+  --container-max-width: 1280px;
+  --header-height: 80px;
+  
+  /* Transition durations */
+  --transition-bezier: cubic-bezier(0.25, 1, 0.5, 1);
+  --transition-slow: 0.8s;
+  --transition-medium: 0.4s;
+  --transition-fast: 0.2s;
+}
+
+/* Reset and Base Styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-ivory);
+  color: var(--color-charcoal);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* Lenis Smooth Scroll Overrides */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Accessibility: Skip Link */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 20px;
+  background-color: var(--color-gold);
+  color: var(--color-black);
+  padding: 12px 24px;
+  font-family: var(--font-accent);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  z-index: 2000;
+  transition: top var(--transition-fast) var(--transition-bezier);
+  border: 1px solid var(--color-black);
+}
+
+.skip-link:focus-visible {
+  top: 20px;
+  outline: 3px solid var(--color-crimson);
+}
+
+/* Keyboard Accessibility Focus Indicator */
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 4px;
+}
+
+/* Typography styles */
+h1, h2, h3, h4 {
+  font-weight: 300;
+  line-height: 1.25;
+}
+
+/* Scrollbar customization */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-gold-50);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold);
+}
+
+/* Layout Container */
+.container {
+  width: 90%;
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 80px 0;
+}
+
+.two-column {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+/* ==========================================================================
+   Section 1 — Loading Screen (Vertical Curtain)
+   ========================================================================== */
+.loader-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader-panel {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50.5%;
+  background-color: var(--color-black);
+  transition: transform 1.4s cubic-bezier(0.85, 0, 0.15, 1);
+  will-change: transform;
+}
+
+.top-panel {
+  top: 0;
+}
+
+.bottom-panel {
+  bottom: 0;
+}
+
+.loader-content {
+  position: relative;
+  z-index: 1010;
+  text-align: center;
+  pointer-events: none;
+  transition: opacity 0.8s var(--transition-bezier);
+}
+
+.loader-logo-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loader-logo {
+  font-family: var(--font-display);
+  font-size: 14vw;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  padding-left: 0.3em; /* to compensate tracking offset */
+  background: linear-gradient(90deg, #FAF6EF 0%, #C9A84C 50%, #FAF6EF 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmerLogo 2.2s linear infinite;
+  display: block;
+  line-height: 1.1;
+}
+
+.loader-sub {
+  font-family: var(--font-accent);
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--color-parchment);
+  letter-spacing: 0.6em;
+  margin-top: 20px;
+  opacity: 0;
+  animation: fadeInLabel 1s ease 0.5s forwards;
+}
+
+/* Curtain Open Trigger */
+.loader-container.loaded .top-panel {
+  transform: translateY(-100%);
+}
+
+.loader-container.loaded .bottom-panel {
+  transform: translateY(100%);
+}
+
+.loader-container.loaded .loader-content {
+  opacity: 0;
+}
+
+/* ==========================================================================
+   Section 2 — Hero with Brand Film
+   ========================================================================== */
+.hero-section {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.hero-image-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* Simulated brand film via Ken Burns animation */
+.hero-bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.08);
+  animation: kenBurnsAnimation 28s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, 
+    rgba(17, 17, 16, 0.45) 0%, 
+    rgba(107, 15, 26, 0.15) 60%, 
+    rgba(17, 17, 16, 0.85) 100%);
+  z-index: 2;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 3;
+  width: 90%;
+  max-width: 900px;
+  color: var(--color-ivory);
+}
+
+.hero-eyebrow {
+  display: block;
+  font-family: var(--font-accent);
+  font-size: 0.85rem;
+  letter-spacing: 0.3em;
+  color: var(--color-gold);
+  margin-bottom: 24px;
+  text-transform: uppercase;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 7vw, 6.5rem);
+  font-weight: 300;
+  margin-bottom: 24px;
+  text-wrap: balance;
+  color: #FFFFFF;
+}
+
+.hero-subtitle {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.3vw, 1.25rem);
+  font-weight: 300;
+  max-width: 500px;
+  margin: 0 auto 48px auto;
+  color: var(--color-parchment);
+  text-wrap: balance;
+}
+
+/* Scroll indicator animation */
+.hero-scroll-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.divider-line {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, var(--color-gold-50), transparent);
+  margin-bottom: 16px;
+}
+
+.scroll-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 48px;
+  border: 1px solid var(--color-gold-50);
+  border-radius: 20px;
+  position: relative;
+  transition: border-color var(--transition-fast) var(--transition-bezier);
+}
+
+.scroll-indicator:hover {
+  border-color: var(--color-gold);
+}
+
+.scroll-dot {
+  display: block;
+  width: 4px;
+  height: 8px;
+  background-color: var(--color-gold);
+  border-radius: 2px;
+  position: absolute;
+  top: 8px;
+  animation: bounceDot 1.8s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+}
+
+/* ==========================================================================
+   Section 3 — The Story (About)
+   ========================================================================== */
+.story-section {
+  background-color: var(--color-ivory);
+  position: relative;
+}
+
+.story-visual {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-parchment);
+  padding-bottom: 125%; /* 4:5 Aspect Ratio */
+}
+
+.story-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow) var(--transition-bezier);
+}
+
+.story-visual:hover .story-image {
+  transform: scale(1.03);
+}
+
+.story-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.gold-label {
+  display: block;
+  font-family: var(--font-accent);
+  font-size: 0.85rem;
+  letter-spacing: 0.25em;
+  color: var(--color-gold);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.5vw, 3.25rem);
+  font-weight: 300;
+  margin-bottom: 32px;
+  text-wrap: balance;
+}
+
+.dark-text {
+  color: var(--color-charcoal);
+}
+
+.light-text {
+  color: var(--color-ivory);
+}
+
+.story-body p {
+  font-size: 1.05rem;
+  font-weight: 300;
+  color: var(--color-charcoal);
+  margin-bottom: 24px;
+}
+
+.pull-quote {
+  border-left: 1.5px solid var(--color-crimson);
+  padding-left: 28px;
+  margin: 40px 0 20px 0;
+}
+
+.pull-quote p {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2vw, 1.85rem);
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.35;
+  color: var(--color-crimson);
+}
+
+/* ==========================================================================
+   Section 4 — Collection Grid
+   ========================================================================== */
+.collection-section {
+  background-color: var(--color-charcoal);
+}
+
+.section-header {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 64px auto;
+}
+
+.collection-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.collection-card {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  text-align: left;
+  outline: none;
+  transition: transform var(--transition-medium) var(--transition-bezier);
+}
+
+.card-image-wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding-bottom: 100%; /* 1:1 Aspect Ratio */
+  background-color: var(--color-black);
+}
+
+.card-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow) var(--transition-bezier);
+  will-change: transform;
+}
+
+.card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(17, 17, 16, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity var(--transition-medium) var(--transition-bezier);
+  backdrop-filter: blur(1.5px);
+}
+
+.card-hover-action {
+  font-family: var(--font-accent);
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  color: var(--color-gold);
+  border: 1px solid var(--color-gold);
+  padding: 12px 24px;
+  background-color: rgba(17, 17, 16, 0.7);
+  transition: transform var(--transition-medium) var(--transition-bezier), 
+              background-color var(--transition-fast) var(--transition-bezier);
+  transform: translateY(10px);
+}
+
+/* Card Hover and Focus states */
+.collection-card:hover .card-image,
+.collection-card:focus-visible .card-image {
+  transform: scale(1.04);
+}
+
+.collection-card:hover .card-overlay,
+.collection-card:focus-visible .card-overlay {
+  opacity: 1;
+}
+
+.collection-card:hover .card-hover-action,
+.collection-card:focus-visible .card-hover-action {
+  transform: translateY(0);
+}
+
+.collection-card:focus-visible .card-hover-action {
+  background-color: var(--color-crimson);
+  color: #FFFFFF;
+}
+
+.card-details {
+  padding-top: 20px;
+}
+
+.card-title {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  color: var(--color-parchment);
+  margin-bottom: 6px;
+}
+
+.card-desc {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--color-gold-50);
+  font-weight: 300;
+}
+
+/* ==========================================================================
+   Section 5 — Process / Craft
+   ========================================================================== */
+.process-section {
+  background-color: var(--color-parchment);
+}
+
+.process-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 50px;
+  margin-top: 60px;
+}
+
+.process-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.process-image-wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding-bottom: 100%; /* 1:1 Aspect Ratio */
+  background-color: var(--color-ivory);
+  margin-bottom: 28px;
+}
+
+.process-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow) var(--transition-bezier);
+}
+
+.process-card:hover .process-image {
+  transform: scale(1.03);
+}
+
+.process-number {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-family: var(--font-display);
+  font-size: 4rem;
+  font-weight: 300;
+  color: var(--color-gold);
+  line-height: 0.8;
+  padding: 16px 20px;
+  background-color: var(--color-parchment);
+  border-top-left-radius: 4px;
+}
+
+.process-title {
+  font-family: var(--font-accent);
+  font-size: 1.15rem;
+  letter-spacing: 0.15em;
+  color: var(--color-charcoal);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.process-desc {
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: rgba(26, 26, 24, 0.85);
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   Section 6 — Contact & Order
+   ========================================================================== */
+.contact-section {
+  background-color: var(--color-crimson);
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  color: var(--color-ivory);
+}
+
+/* Atmospheric subtle grid/grain overlay */
+.contact-overlay-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, transparent 40%, var(--color-black-85) 100%);
+  opacity: 0.45;
+  z-index: 1;
+}
+
+.contact-content {
+  position: relative;
+  z-index: 2;
+  width: 90%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 100px 0;
+}
+
+.contact-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 300;
+  margin-bottom: 24px;
+  color: var(--color-parchment);
+}
+
+.contact-subtitle {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.25vw, 1.2rem);
+  font-weight: 300;
+  color: var(--color-parchment);
+  max-width: 540px;
+  margin: 0 auto 48px auto;
+  text-wrap: balance;
+  opacity: 0.9;
+}
+
+/* Outlined CTA button */
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-accent);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--color-gold);
+  border: 1.5px solid var(--color-gold);
+  padding: 16px 36px;
+  text-decoration: none;
+  background-color: transparent;
+  position: relative;
+  overflow: hidden;
+  transition: color var(--transition-medium) var(--transition-bezier);
+  z-index: 1;
+}
+
+.cta-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-gold);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform var(--transition-medium) var(--transition-bezier);
+  z-index: -1;
+}
+
+.cta-button:hover, 
+.cta-button:focus-visible {
+  color: var(--color-black);
+}
+
+.cta-button:hover::before, 
+.cta-button:focus-visible::before {
+  transform: scaleY(1);
+}
+
+.cta-arrow {
+  margin-left: 12px;
+  transition: transform var(--transition-fast) var(--transition-bezier);
+  display: inline-block;
+}
+
+.cta-button:hover .cta-arrow,
+.cta-button:focus-visible .cta-arrow {
+  transform: translateX(4px);
+}
+
+/* Email contact styles */
+.contact-email-wrapper {
+  margin-top: 40px;
+}
+
+.contact-email {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 300;
+  color: var(--color-parchment);
+  text-decoration: none;
+  position: relative;
+  letter-spacing: 0.05em;
+  transition: color var(--transition-fast) var(--transition-bezier);
+}
+
+.contact-email::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-gold-50);
+  transform: scaleX(0.7);
+  transition: transform var(--transition-medium) var(--transition-bezier),
+              background-color var(--transition-fast) var(--transition-bezier);
+}
+
+.contact-email:hover,
+.contact-email:focus-visible {
+  color: var(--color-gold);
+}
+
+.contact-email:hover::after,
+.contact-email:focus-visible::after {
+  transform: scaleX(1);
+  background-color: var(--color-gold);
+}
+
+.contact-divider {
+  width: 80px;
+  height: 1px;
+  background-color: var(--color-gold-20);
+  margin: 64px auto 32px auto;
+}
+
+.contact-badges {
+  font-family: var(--font-accent);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--color-gold);
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+/* ==========================================================================
+   Section 7 — Footer
+   ========================================================================== */
+.footer-section {
+  background-color: var(--color-black);
+  color: var(--color-parchment);
+  text-align: center;
+  border-top: 1px solid rgba(201, 168, 76, 0.15);
+}
+
+.footer-content {
+  padding: 60px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-logo {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+}
+
+.footer-brand {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  letter-spacing: 0.3em;
+  padding-left: 0.3em;
+  color: var(--color-gold);
+}
+
+.footer-brand-sub {
+  font-family: var(--font-accent);
+  font-size: 0.65rem;
+  letter-spacing: 0.5em;
+  margin-top: 4px;
+  color: var(--color-parchment);
+}
+
+.footer-socials {
+  margin-bottom: 28px;
+}
+
+.social-link {
+  color: var(--color-parchment);
+  transition: color var(--transition-fast) var(--transition-bezier);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.social-link:hover,
+.social-link:focus-visible {
+  color: var(--color-gold);
+}
+
+.footer-copyright {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: var(--color-parchment);
+  opacity: 0.6;
+}
+
+/* ==========================================================================
+   Global Fade-in Animations (Intersection Observer)
+   ========================================================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity var(--transition-slow) cubic-bezier(0.16, 1, 0.3, 1), 
+              transform var(--transition-slow) cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger transition delays for columns/grids */
+.collection-grid .reveal:nth-child(2) { transition-delay: 0.1s; }
+.collection-grid .reveal:nth-child(3) { transition-delay: 0.2s; }
+.collection-grid .reveal:nth-child(5) { transition-delay: 0.1s; }
+.collection-grid .reveal:nth-child(6) { transition-delay: 0.2s; }
+
+.process-steps .reveal:nth-child(2) { transition-delay: 0.1s; }
+.process-steps .reveal:nth-child(3) { transition-delay: 0.2s; }
+
+/* ==========================================================================
+   CSS Keyframes
+   ========================================================================== */
+
+/* Shimmer text sweep animation */
+@keyframes shimmerLogo {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* Fade in animation for loader label */
+@keyframes fadeInLabel {
+  0% {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Ken Burns effect */
+@keyframes kenBurnsAnimation {
+  0% {
+    transform: scale(1.05) translate(0%, 0%);
+  }
+  50% {
+    transform: scale(1.11) translate(1%, -1%);
+  }
+  100% {
+    transform: scale(1.05) translate(0%, 0%);
+  }
+}
+
+/* Floating bounce for scroll indicator dot */
+@keyframes bounceDot {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(18px);
+    opacity: 1;
+  }
+}
+
+/* ==========================================================================
+   Responsive Media Queries
+   ========================================================================== */
+
+/* Medium Devices (Tablets, small laptops, up to 1024px) */
+@media screen and (max-width: 1024px) {
+  .two-column {
+    gap: 40px;
+  }
+  
+  .collection-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+  
+  .process-steps {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  
+  .process-number {
+    font-size: 3rem;
+  }
+}
+
+/* Mobile Devices (Phones, up to 768px) */
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 60px 0;
+    width: 88%;
+  }
+  
+  .two-column {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  
+  .story-visual {
+    padding-bottom: 120%; /* Slightly smaller */
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .collection-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  
+  .process-steps {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+  
+  .process-image-wrapper {
+    margin-bottom: 20px;
+  }
+  
+  .loader-logo {
+    font-size: 16vw;
+    letter-spacing: 0.2em;
+  }
+}
+
+/* Accessibility: Respect Reduced Motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-delay: 0s !important;
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0s !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .loader-panel {
+    transform: none !important;
+    transition: none !important;
+  }
+  
+  .loader-container.loaded {
+    display: none !important;
+  }
+  
+  .hero-bg-image {
+    transform: none !important;
+    animation: none !important;
+  }
+  
+  .story-image,
+  .card-image,
+  .process-image {
+    transform: none !important;
+  }
+  
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  
+  .scroll-dot {
+    animation: none !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+  }
+}
